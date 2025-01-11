@@ -1,0 +1,37 @@
+services: # services which our app going to use. (list of containers we want to create)
+  frontend: # expense-frontend
+    container_name: frontend
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    depends_on:
+      - backend
+
+  # expense-backend-apiservice
+  backend:
+    container_name: backend
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - MONGODB_URI=mongodb://mongodbexpense:27017/expensetracker
+    depends_on:
+      - mongodbexpense  
+
+  # expense-db
+  mongodbexpense: # container name 
+    container_name: mongodbexpense
+    image: mongo:4.2 # On which image container will build
+    hostname: mongodbexpense
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/dbexpense
+  
+volumes: # enable persistence of database data across container restart
+  mongo_data:
