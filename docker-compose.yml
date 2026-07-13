@@ -16,7 +16,7 @@ services: # services which our app going to use. (list of containers we want to 
       context: backend/
       dockerfile: Dockerfile
     ports:
-      - "9000:9000"
+      - "9090:9090"
     environment:
       - MONGODB_URI=mongodb://mongodbexpense:27017/expensetracker
     depends_on:
